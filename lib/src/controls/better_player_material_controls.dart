@@ -73,34 +73,29 @@ class _BetterPlayerMaterialControlsState
         child: _buildErrorWidget(),
       );
     }
-    return MouseRegion(
-      onHover: (_) {
-        cancelAndRestartTimer();
+    return GestureDetector(
+      onTap: () {
+        _hideStuff
+            ? cancelAndRestartTimer()
+            : setState(() {
+                _hideStuff = true;
+              });
       },
-      child: GestureDetector(
-        onTap: () {
-          _hideStuff
-              ? cancelAndRestartTimer()
-              : setState(() {
-                  _hideStuff = true;
-                });
-        },
-        onDoubleTap: () {
-          cancelAndRestartTimer();
-          _onPlayPause();
-        },
-        child: AbsorbPointer(
-          absorbing: _hideStuff,
-          child: Column(
-            children: [
-              _buildTopBar(),
-              if (_wasLoading)
-                Expanded(child: Center(child: _buildLoadingWidget()))
-              else
-                _buildHitArea(),
-              _buildBottomBar(),
-            ],
-          ),
+      onDoubleTap: () {
+        cancelAndRestartTimer();
+        _onPlayPause();
+      },
+      child: AbsorbPointer(
+        absorbing: _hideStuff,
+        child: Column(
+          children: [
+            _buildTopBar(),
+            if (_wasLoading)
+              Expanded(child: Center(child: _buildLoadingWidget()))
+            else
+              _buildHitArea(),
+            _buildBottomBar(),
+          ],
         ),
       ),
     );
